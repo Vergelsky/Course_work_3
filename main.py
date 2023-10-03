@@ -1,16 +1,20 @@
-from src import transaction as tr
-import json
+from code import transaction as tr
+from code import func
+
+transactions_history_file = "operations.json"
 
 
-# Извлекаем список транзакций в переменную
-with open("transaction.json", "r") as trans_file:
-    operations = json.load(trans_file)
+
+# Извлекаем словарь с транзакциями в переменную
+operations = func.load_transactions_list()
 
 #Создаём список объектов выполненных транзакций
-transactions = [tr.Transaction(trans) for trans in operations if trans.status == "EXECUTED"]
+transactions = func.make_list_of_executed()
 
-#Нам нужны последние, поэтому сортируем
-transactions.sort(key=getattr("datetime"))
+#Нам нужны самые свежие, поэтому сортируем по дате
+transactions.sort(key=getattr("date"))
 
+#Выводим в консоль первые 5 транзакций из отсортированного списка
 for trans in transactions[:4]:
-    pass
+    print(trans)
+    print()
